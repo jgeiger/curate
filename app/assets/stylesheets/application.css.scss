@@ -3,5 +3,12 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  *= require_self
- *= require_tree . 
 */
+@import "partials/fonts.css.scss";
+@import "partials/variables.css.scss";
+@import "partials/flash_messages.css.scss";
+@import "partials/pagination.css.scss";
+@import "partials/forms.css.scss";
+@import "partials/template.css.scss";
+@import "partials/layout.css.scss";
+
