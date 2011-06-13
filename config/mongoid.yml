@@ -1,0 +1,11 @@
+development:
+  host: localhost
+  database: curate_development
+
+test:
+  host: localhost
+  database: curate_test
+
+production:
+  host: localhost
+  database: curate_development
