@@ -2,6 +2,10 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0.rc4'
 
+gem "warden"
+gem "devise"#, :git => "https://github.com/plataformatec/devise.git"
+gem "bcrypt-ruby", :require => "bcrypt"
+
 # Asset template engines
 gem 'haml'
 gem "haml-rails"#, :git => "https://github.com/indirect/haml-rails.git"
