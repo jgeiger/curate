@@ -1,5 +1,144 @@
 # Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  label:
+    signin: Sign In
+    update: Update
+    email: Email
+    signup: Sign Up
+    activate: Activate
+    reset: Reset Password
+    save: Save
+    cancel: Cancel
+
+  link:
+    sign-up: Sign Up
+    sign-in: Sign In
+    sign-out: Sign out
+    dashboard: Dashboard
+    upgrade: Upgrade
+    show: Show
+    edit: Edit
+    destroy: Destroy
+    new_ontology: New Ontology
+
+  confirm:
+    areyousure: Are you sure?
+
+  flash:
+    require_admin: "Sorry, you don't have access to that."
+    require_user: "You must be logged in to access this page."
+    require_no_user: "You must be logged out to access this page."
+
+  # Email subjects
+  subject:
+    activation_instructions: Activation Instructions
+    password_reset_instructions: Password Reset Instructions
+    welcome: Welcome to GMiner!
+
+  # Views
+  users:
+    index:
+      title: All Users
+    new:
+      title: Sign Up
+    edit:
+      title: Edit My Account
+    show:
+      title: My Account
+
+  ontologies:
+    new:
+      title: Create new Ontology
+    edit:
+      title: Edit Ontology
+
+  jobs:
+    index:
+      title: Jobs
+      dashboard_link: Job dashboard
+      new_link: Create Jobs
+    new:
+      title: Create new Jobs
+    process:
+      title: Process Jobs
+
+  pages:
+    home:
+      welcome: Welcome to GMiner
+
+    upgrade:
+      text: |
+        <div id="ie6msg">
+        <h1>Please upgrade your web browser</h1>
+        <p>gminer works best with a newer browser than you are using.</p>
+        <p>To get the best possible experience using gminer, we recommend that you upgrade your browser to a newer version.</p>
+        <p>The current version is <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx target="_blank"">Internet Explorer 8</a>. The upgrade is free. If you’re using a PC at work you should contact your IT-administrator for assistance.</p>
+        <p>Either way, we'd like to encourage you to stop using IE6 and try a more secure and Web Standards-friendly browser like <strong><a href="http://getfirefox.com" target="_blank">Firefox</a></strong> or <strong><a href="http://www.google.com/chrome" target="_blank">Chrome</a></strong>.</p>
+        </div>
+    help:
+      title: GMiner Help
+    rdf:
+      title: GMiner RDF Documents
+
+  ie:
+    upgrade_message: |
+      Your browser is obsolete. For best results in gminer, please {{upgrade_page_url}}
+    outdated_browser: You are using an outdated browser
+    please_upgrade: "For a better experience using this site, please upgrade to a modern web browser."
+    browser_obsolete: Your Browser is Obsolete
+
+  states:
+    AL: Alabama
+    AK: Alaska
+    AZ: Arizona
+    AR: Arkansas
+    CA: California
+    CO: Colorado
+    CT: Connecticut
+    DE: Delaware
+    DC: District Of Columbia
+    FL: Florida
+    GA: Georgia
+    HI: Hawaii
+    ID: Idaho
+    IL: Illinois
+    IN: Indiana
+    IA: Iowa
+    KS: Kansas
+    KY: Kentucky
+    LA: Louisiana
+    ME: Maine
+    MD: Maryland
+    MA: Massachusetts
+    MI: Michigan
+    MN: Minnesota
+    MS: Mississippi
+    MO: Missouri
+    MT: Montana
+    NE: Nebraska
+    NV: Nevada
+    NH: New Hampshire
+    NJ: New Jersey
+    NM: New Mexico
+    NY: New York
+    NC: North Carolina
+    ND: North Dakota
+    OH: Ohio
+    OK: Oklahoma
+    OR: Oregon
+    PA: Pennsylvania
+    RI: Rhode Island
+    SC: South Carolina
+    SD: South Dakota
+    TN: Tennessee
+    TX: Texas
+    UT: Utah
+    VT: Vermont
+    VA: Virginia
+    WA: Washington
+    WV: West Virginia
+    WI: Wisconsin
+    WY: Wyoming
+

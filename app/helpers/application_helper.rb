@@ -3,6 +3,15 @@ module ApplicationHelper
 
   FLASH_NOTICE_KEYS = [:success, :notice, :warning, :failure, :invalid, :alert, :unauthenticated, :unconfirmed, :invalid_token, :timeout, :inactive, :locked]
 
+  def title(page_title, show_title = true)
+    @content_for_title = page_title.to_s
+    @show_title = show_title
+  end
+
+  def show_title?
+    @show_title
+  end
+
   def signin_signout
     if user_signed_in?
       link_to(t('link.dashboard'), user_url(current_user))+" - "+link_to(t('link.sign-out'), destroy_user_session_url, :confirm => t('confirm.areyousure'))
