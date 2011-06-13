@@ -43,5 +43,13 @@ module Curate
 
     # Enable the asset pipeline
     config.assets.enabled = true
+
+    config.generators do |g|
+      g.template_engine :haml
+      g.test_framework :rspec, :fixture => true, :views => false
+    end
+
+    config.generators.helper = false
+
   end
 end
