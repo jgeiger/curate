@@ -20,6 +20,7 @@ en:
     upgrade: Upgrade
     show: Show
     edit: Edit
+    delete: Delete
     destroy: Destroy
     new_ontology: New Ontology
 

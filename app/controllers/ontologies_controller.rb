@@ -2,6 +2,7 @@ class OntologiesController < ApplicationController
 
   before_filter :check_cancel, :only => [:create, :update]
   before_filter :admin_required, :only => [:new, :edit, :create, :update]
+  before_filter :load_ontology, :only => [:show, :edit, :update]
 
   def index
     @query = params[:query]
@@ -24,34 +25,24 @@ class OntologiesController < ApplicationController
   def create
     @ontology = Ontology.new(params[:ontology])
     if @ontology.save
-      flash[:notice] = "Ontology has been created."
-      redirect_to(ontologies_url)
+      redirect_to(ontologies_url, notice: "Ontology has been created.")
     else
       render(:action => :new)
     end
   end
 
   def edit
-    @ontology = Ontology.find(params[:id])
-
-    rescue Mongoid::Errors::DocumentNotFound
-      flash[:warning] = "That ontology does not exist."
-      redirect_to(ontologies_url)
   end
 
   def update
-    @ontology = Ontology.find(params[:id])
-
     if @ontology.update_attributes(params[:ontology])
-      flash[:notice] = 'Ontology was successfully updated.'
-      redirect_to(ontologies_url)
+      redirect_to(ontologies_url, notice: 'Ontology was successfully updated.')
     else
       render(:action => :edit)
     end
   end
 
   def show
-    @ontology = Ontology.find(params[:id])
     page = (params[:page].to_i > 0) ? params[:page].to_i : 1
     @q = params[:query]
     @ontologies = OntologyTerm.where(:ontology_id => @ontology.id).where(:name => /^#{@q}/i).page(page)
@@ -63,15 +54,18 @@ class OntologiesController < ApplicationController
         }
     end
 
-    rescue Mongoid::Errors::DocumentNotFound
-      flash[:warning] = "That ontology does not exist."
-      redirect_to(ontologies_url)
   end
 
   protected
 
-    def check_cancel
-      redirect_to(ontologies_url) and return if (params[:commit] == t('label.cancel'))
-    end
+  def load_ontology
+    @ontology = Ontology.find(params[:id])
+    rescue Mongoid::Errors::DocumentNotFound
+      redirect_to(ontologies_url, warning: "That ontology does not exist.")
+  end
+
+  def check_cancel
+    redirect_to(ontologies_url) and return if (params[:commit] == t('label.cancel'))
+  end
 
 end

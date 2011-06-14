@@ -1,0 +1,12 @@
+= page_title("Documents")
+- if admin?
+  %br
+  = link_to("Create document", new_document_path)
+  %br
+%p
+  %form{:name => "sform", :action => "", :style => "display:inline"}
+    %label
+      Filter on title:
+    = text_field_tag(:query, params['query'], :autocomplete => 'off')
+.dataTable
+  = render(:partial => "documents_list.html.haml")

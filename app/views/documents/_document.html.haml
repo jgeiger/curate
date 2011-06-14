@@ -1,0 +1,8 @@
+%tr{:class => "#{cycle('row-odd', 'row-even')}"}
+  %td{:valign => "top"}
+    = link_to(highlight(document.title, @q), document_url(document))
+  - if admin?
+    %td{:valign => "top"}
+      = link_to(t('link.edit'), edit_document_path(document))
+      = link_to(t('link.delete'), document, :method => :delete)
+

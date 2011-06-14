@@ -26,8 +26,7 @@ class OntologyTermsController < ApplicationController
     end
 
     rescue Mongoid::Errors::DocumentNotFound
-      flash[:warning] = "That ontology term does not exist."
-      redirect_to(ontology_terms_url)
+      redirect_to(ontology_terms_url, warning: "That ontology term does not exist.")
   end
 
 end

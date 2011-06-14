@@ -1,0 +1,20 @@
+%br
+- if @documents.size == 0
+  %p
+    No documents found...
+- else
+  %p
+    = found_count("documents", @documents)
+  %p
+    = render(:partial => "shared/pagination.html.haml", :locals => {:items => @documents})
+  %br
+  %table{:width => "100%", :border => "0", :cellpadding => "0", :cellspacing => "2"}
+    %thead
+      %tr.row-header
+        %td{:width => "90%"}
+          Title
+        - if admin?
+          %td{:width => "10%"}
+            Action
+    %tbody#staffTable
+      = render(:partial => "document.html.haml", :collection => @documents)

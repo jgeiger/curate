@@ -1,0 +1,7 @@
+= simple_form_for(@document) do |f|
+  = error_messages_for(@document)
+  = f.input(:title)
+  - (@document.attributes.keys-["_id", "title"]).each do |field|
+    = f.input(field)
+  = f.submit(t('label.save'))
+  = f.submit(t('label.cancel'))
