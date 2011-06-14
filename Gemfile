@@ -19,6 +19,16 @@ gem 'jquery-rails'
 gem 'mongoid'
 gem 'bson_ext'
 
+gem 'kaminari'
+
+gem "simple_form"
+gem "uuidtools"
+
+gem 'crack', :git => 'git@github.com:jgeiger/crack.git'
+gem 'httparty'
+
+gem 'girl_friday'
+
 group :development, :test do
   gem "rspec-rails", "~> 2.6.1"
   gem 'cucumber-rails', "~> 0.5.2"
