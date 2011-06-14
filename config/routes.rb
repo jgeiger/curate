@@ -4,7 +4,7 @@ Curate::Application.routes.draw do
 
   resources :users, :only => [:show]
 
-  resources :ontologies
+  resources :ontologies, :ontology_terms
 
   match '/help', :to => 'pages#help', :as => 'help'
 
