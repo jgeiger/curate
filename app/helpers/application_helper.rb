@@ -66,7 +66,7 @@ module ApplicationHelper
 
   def found_count(item_type, items)
     if !item_type.is_a?(Array)
-      "Number of #{item_type} found: <strong>#{items.total_entries}</strong>".html_safe
+      "Number of #{item_type} found: <strong>#{items.total_count}</strong>".html_safe
     end
   end
 

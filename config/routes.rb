@@ -4,6 +4,8 @@ Curate::Application.routes.draw do
 
   resources :users, :only => [:show]
 
+  resources :ontologies
+
   match '/help', :to => 'pages#help', :as => 'help'
 
   root :to => 'pages#home'

@@ -1,0 +1,10 @@
+= page_title("Ontology: #{@ontology.name}")
+%br
+= link_to('Back', ontologies_url)
+%p
+  %form{:name => "sform", :action => "", :style => "display:inline"}
+    %label
+      Filter on name:
+    = text_field_tag(:query, params['query'], :autocomplete => 'off')
+.dataTable
+  = render(:partial => "ontology_term_list.html.haml")

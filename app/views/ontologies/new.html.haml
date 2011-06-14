@@ -1,0 +1,8 @@
+- title t('.title')
+= page_title(t('.title'))
+%br
+= simple_form_for(@ontology) do |f|
+  = error_messages_for(@ontology)
+  = render(:partial => "ontologies/form", :object => f)
+  = f.submit(t('label.save'))
+  = f.submit(t('label.cancel'))

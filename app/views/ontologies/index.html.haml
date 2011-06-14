@@ -1,0 +1,12 @@
+= page_title("Ontologies")
+- if admin?
+  %br
+  = link_to("Create ontology", new_ontology_path)
+  %br
+%p
+  %form{:name => "sform", :action => "", :style => "display:inline"}
+    %label
+      Filter on name:
+    = text_field_tag(:query, params['query'], :autocomplete => 'off')
+.dataTable
+  = render(:partial => "ontologies_list.html.haml")

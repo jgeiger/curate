@@ -1,6 +1,6 @@
-- if items.total_pages == 1
+- if items.num_pages == 1
   .pagination
-- elsif (defined?(limit) || (items.total_pages < 10 && items.total_pages > 1))
+- elsif (defined?(limit) || (items.num_pages < 10 && items.num_pages > 1))
   = render(:partial => "shared/pagination_links.html.haml", :locals => {:items => items, :klass => (defined? klass) ? klass : "data_pagination"})
 - else
   .pagination
