@@ -17,6 +17,20 @@ class Ontology
       Ontology.all(:order => :name).select { |ontology| ontology if ontology.annotations.size > 0 }
     end
 
+    def load_from_ncbo
+      NCBOAnnotatorService.ontologies.each do |ontology|
+        o = Ontology.find_or_initialize_by(ncbo_id: ontology["virtualOntologyId"])
+        if o.new_record?
+          o.name = ontology['name']
+          o.stopwords = ""
+          o.expand_ontologies = ""
+        end
+        o.version = ontology['version']
+        o.current_ncbo_id = ontology['localOntologyId']
+        o.save
+      end
+    end
+
     def insert_terms(file, ncbo_id)
       ontology = Ontology.first(:conditions => {:ncbo_id => ncbo_id})
 

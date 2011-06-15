@@ -4,7 +4,7 @@ class OntologyTermsController < ApplicationController
     @q = params[:query]
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
-    @ontology_terms = OntologyTerm.where(:name => /^#{@q}/i).page(page)
+    @ontology_terms = OntologyTerm.where(:name => /^#{@q}/i).order_by([:name, :asc]).page(page)
 
     respond_to do |format|
       format.html { }

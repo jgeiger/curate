@@ -3,7 +3,13 @@ Curate::Application.routes.draw do
   devise_for :users
   resources :users, :only => [:show]
 
-  resources :ontologies, :ontology_terms, :documents
+  resources :ontology_terms, :documents
+
+  resources :ontologies do
+    collection do
+      get :refresh
+    end
+  end
 
   match '/help', :to => 'pages#help', :as => 'help'
 

@@ -8,7 +8,7 @@ class OntologiesController < ApplicationController
     @query = params[:query]
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
-    @ontologies = Ontology.where(:name => /^#{@query}/i).page(page)
+    @ontologies = Ontology.where(:name => /^#{@query}/i).order_by([:name, :asc]).page(page)
 
     respond_to do |format|
       format.html {}
@@ -45,7 +45,7 @@ class OntologiesController < ApplicationController
   def show
     page = (params[:page].to_i > 0) ? params[:page].to_i : 1
     @q = params[:query]
-    @ontologies = OntologyTerm.where(:ontology_id => @ontology.id).where(:name => /^#{@q}/i).page(page)
+    @ontologies = OntologyTerm.where(:ontology_id => @ontology.id).where(:name => /^#{@q}/i).order_by([:name, :asc]).page(page)
 
     respond_to do |format|
       format.html {}
@@ -54,6 +54,11 @@ class OntologiesController < ApplicationController
         }
     end
 
+  end
+
+  def refresh
+    Ontology.load_from_ncbo
+    redirect_to(ontologies_url, notice: 'Ontology list was successfully updated.')
   end
 
   protected
