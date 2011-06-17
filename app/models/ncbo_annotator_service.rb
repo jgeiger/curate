@@ -1,4 +1,4 @@
-class NCBOAnnotatorService
+class NcboAnnotatorService
   include HTTParty
     base_uri 'rest.bioontology.org'
     format :xml
@@ -26,34 +26,34 @@ class NCBOAnnotatorService
       }
 
       begin
-        data = NCBOAnnotatorService.post("/obs/annotator", :body => parameters)
+        data = NcboAnnotatorService.post("/obs/annotator", :body => parameters)
       rescue EOFError, Errno::ECONNRESET
-        raise NCBOException.new('too many connection resets', parameters) if retried
+        raise NcboException.new('too many connection resets', parameters) if retried
         retried = true
         retry
       rescue Timeout::Error
         Rails.logger.debug("Timeout error retried: #{retried}")
-        raise NCBOException.new('consecutive timeout errors', parameters) if retried
+        raise NcboException.new('consecutive timeout errors', parameters) if retried
         retried = true
         retry
       rescue Exception => e
         Rails.logger.debug("#{e.inspect} -- #{e.message}")
-        raise NCBOException.new('invalid XML error', parameters) if retried
+        raise NcboException.new('invalid XML error', parameters) if retried
         retried = true
         retry
       end
     end
 
     def result_hash(text, stopwords, expand_ontologies, ncbo_ontology_id, email)
-      result = NCBOAnnotatorService.get_data(text, stopwords, expand_ontologies, email, ncbo_ontology_id)
+      result = NcboAnnotatorService.get_data(text, stopwords, expand_ontologies, email, ncbo_ontology_id)
       if result && result['success']
         annotations = result['success']['data']['annotatorResultBean']['annotations']
         ontology_hash = annotations.blank? ? {} : generate_ontology_hash(result['success']['data']['annotatorResultBean']['ontologies']['ontologyUsedBean'])
-        return [NCBOAnnotatorService.generate_hash(annotations), ontology_hash]
+        return [NcboAnnotatorService.generate_hash(annotations), ontology_hash]
       elsif result && result['errorStatus']
-        raise NCBOException.new(result['errorStatus']['shortMessage'], result['errorStatus']['longMessage'])
+        raise NcboException.new(result['errorStatus']['shortMessage'], result['errorStatus']['longMessage'])
       else
-        raise NCBOException.new("Unknown NCBO Error", result)
+        raise NcboException.new("Unknown NCBO Error", result)
       end
     end
 
@@ -73,7 +73,7 @@ class NCBOAnnotatorService
         hash = annotation_array.inject({"MGREP" => {}, "ISA_CLOSURE" => {}, "MAPPING" => {}}) do |h, annotation|
           concept = annotation["concept"]
           context = annotation["context"]
-          h = NCBOAnnotatorService.classify_results(concept, context, h)
+          h = NcboAnnotatorService.classify_results(concept, context, h)
           h
         end
       end
@@ -98,7 +98,7 @@ class NCBOAnnotatorService
 
     def current_ncbo_id(ncbo_id)
       begin
-        result = NCBOAnnotatorService.get("/bioportal/virtual/ontology/#{ncbo_id}")
+        result = NcboAnnotatorService.get("/bioportal/virtual/ontology/#{ncbo_id}")
         bean = result['success']['data']['ontologyBean']
         name = bean['displayLabel']
         version = bean['versionNumber']
@@ -106,17 +106,17 @@ class NCBOAnnotatorService
         [id, name, version]
       rescue Exception => e
         puts "#{e.inspect} -- #{e.message}"
-        raise NCBOException.new('ontology update error', ncbo_id)
+        raise NcboException.new('ontology update error', ncbo_id)
       end
     end
 
     def ontologies
       begin
-        result = NCBOAnnotatorService.get("/obs/ontologies")
+        result = NcboAnnotatorService.get("/obs/ontologies")
         ontology_array = result['success']['data']['list']['ontologyBean']
       rescue Exception => e
         puts "#{e.inspect} -- #{e.message}"
-        raise NCBOException.new('ontology update error', ncbo_id)
+        raise NcboException.new('ontology update error', ncbo_id)
       end
     end
 

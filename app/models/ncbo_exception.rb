@@ -1,4 +1,4 @@
-class NCBOException < Exception
+class NcboException < Exception
 
   attr_accessor :parameters
 

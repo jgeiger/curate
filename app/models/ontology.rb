@@ -21,7 +21,7 @@ class Ontology
     end
 
     def load_from_ncbo
-      NCBOAnnotatorService.ontologies.each do |ontology|
+      NcboAnnotatorService.ontologies.each do |ontology|
         o = Ontology.find_or_initialize_by(ncbo_id: ontology["virtualOntologyId"])
         if o.new_record?
           o.name = ontology['name']
@@ -99,7 +99,7 @@ class Ontology
   end # of self
 
   def update_data
-    self.current_ncbo_id, self.name, self.version = NCBOAnnotatorService.current_ncbo_id(self.ncbo_id)
+    self.current_ncbo_id, self.name, self.version = NcboAnnotatorService.current_ncbo_id(self.ncbo_id)
     save!
   end
 
