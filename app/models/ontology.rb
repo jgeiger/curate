@@ -8,6 +8,9 @@ class Ontology
   field :stopwords, type: String
   field :expand_ontologies, type: String
 
+  index :ncbo_id, unique: true
+  index :name, unique: true
+
   validates_presence_of :name
   validates_uniqueness_of :name
 
