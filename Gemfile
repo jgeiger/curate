@@ -27,7 +27,7 @@ gem "uuidtools"
 gem 'crack', :git => 'git@github.com:jgeiger/crack.git'
 gem 'httparty'
 
-gem 'girl_friday'
+gem "nfo-resque-mongo", "~> 1.15.0"
 
 group :development, :test do
   gem "rspec-rails", "~> 2.6.1"
