@@ -212,18 +212,6 @@ $(function() {
     return false;
   });
 
-  $("#new_job select#job_ontology_id").change(function(){
-    $.post("/jobs/update_job_form", $("#new_job").serialize(), function(html) {
-      $(".fields").html(html);
-    });
-  });
-
-  $("#new_job select#job_geo_type").change(function(){
-    $.post("/jobs/update_job_form", $("#new_job").serialize(), function(html) {
-      $(".fields").html(html);
-    });
-  });
-
   bindCurate();
   bindRightClicks();
 
