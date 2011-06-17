@@ -55,10 +55,9 @@ en:
     edit:
       title: Edit Ontology
 
-  jobs:
+  annotation_jobs:
     index:
       title: Jobs
-      dashboard_link: Job dashboard
       new_link: Create Jobs
     new:
       title: Create new Jobs

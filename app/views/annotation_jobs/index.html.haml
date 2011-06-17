@@ -1,0 +1,8 @@
+- title t(".title")
+= page_title(t('.title'))
+%br
+%p
+  = link_to(t('.new_link'), new_annotation_job_url)
+
+.dataTable
+  = render(:partial => "annotation_jobs_list.html.haml")

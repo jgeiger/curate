@@ -1,0 +1,11 @@
+%tr{:class => "#{cycle('row-odd', 'row-even')}"}
+  %td{:valign => "top"}
+    = annotation_job.document_id
+  %td{:valign => "top"}
+    = annotation_job.field_name
+  %td{:valign => "top"}
+    = annotation_job.ncbo_id
+  %td{:valign => "top"}
+    = date_or_pending(annotation_job.created_at)
+  %td{:valign => "top"}
+    = date_or_pending(annotation_job.finished_at)

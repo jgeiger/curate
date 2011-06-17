@@ -3,7 +3,7 @@ Curate::Application.routes.draw do
   devise_for :users
   resources :users, :only => [:show]
 
-  resources :ontology_terms, :documents
+  resources :ontology_terms, :documents, :annotation_jobs
 
   resources :ontologies do
     collection do

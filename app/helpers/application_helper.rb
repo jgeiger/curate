@@ -193,4 +193,8 @@ module ApplicationHelper
     render(:partial => "shared/annotation", :locals => {:field_name => field_name, :ontology_name => ontology_name, :term_list => term_list, :curate_link_list => curate_link_list})
   end
 
+  def date_or_pending(date)
+    date ? Time.at(date).to_s(:us_with_time) : "Pending"
+  end
+
 end

@@ -1,0 +1,8 @@
+- title t('.title')
+= page_title(t('.title'))
+%br
+= simple_form_for(@annotation_job) do |f|
+  = error_messages_for(@annotation_job)
+  = render(:partial => "annotation_jobs/form.html.haml", :object => f)
+  = f.submit(t('label.save'))
+  = f.submit(t('label.cancel'))

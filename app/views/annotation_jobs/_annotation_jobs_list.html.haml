@@ -1,0 +1,25 @@
+%br
+- if @annotation_jobs.size == 0
+  %p
+    No jobs found...
+- else
+  %p
+    = found_count("jobs", @annotation_jobs)
+  %p
+    = render(:partial => "shared/pagination", :locals => {:items => @annotation_jobs})
+  %br
+  %table{:width => "100%", :border => "0", :cellpadding => "0", :cellspacing => "2"}
+    %thead
+      %tr.row-header
+        %td{:width => "10%"}
+          Document ID
+        %td{:width => "10%"}
+          Field
+        %td{:width => "30%"}
+          Ontology
+        %td{:width => "25%"}
+          Started at
+        %td{:width => "25%"}
+          Finished at
+    %tbody#staffTable
+      = render(:partial => "annotation_job.html.haml", :collection => @annotation_jobs)
