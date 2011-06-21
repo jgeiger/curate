@@ -19,29 +19,34 @@ class AnnotationsController < ApplicationController
   def audit
     set_status_dropdown
     set_has_predicate_dropdown
+    set_ontology_dropdown
 
     @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
-    q_front = "#{@q}%"
-    cstring = "annotations.term_name LIKE ? AND annotations.ncbo_id = ?"
+    annotations = Annotation.where(:ontology_term_name => /^#{@query}/i)
+
+    annotations = annotations.where(ncbo_id: @ncbo_id) if !@ncbo_id.blank?
 
     case @status
       when "All"
-        cstring << " AND annotations.status != 'skip'"
+        annotations = annotations.where(:status.ne => 'skip')
       when "Valid"
-        cstring << " AND annotations.verified = 1 AND annotations.status = 'audited'"
+        annotations = annotations.where(verified: true, status: 'audited')
       when "Invalid"
-        cstring << " AND annotations.verified = 0 AND annotations.status = 'audited'"
+        annotations = annotations.where(verified: false, status: 'audited')
       when "Unaudited"
-        cstring << " AND annotations.status = 'unaudited'"
+        annotations = annotations.where(status: 'unaudited')
     end
 
-    cstring << set_predicate_conditions(@has_predicate)
+    case @has_predicate
+      when "No"
+        annotations = annotations.where(predicate: '')
+      when "Yes"
+        annotations = annotations.excludes(predicate: '')
+    end
 
-    conditions = [cstring, q_front, @current]
-
-    @annotations = Annotation.find_for_curation(conditions, current_user.id)
+    @annotations = annotations.order_by([[:ontology_term_name, :asc], [:field_name, :asc]]).page(page)
 
     respond_to do |format|
       format.html { }
@@ -83,7 +88,9 @@ class AnnotationsController < ApplicationController
   def mass_curate
     ids = params[:selected_annotations]
     verified = params[:verified]
-    Annotation.update_all("verified = #{verified}, status = 'audited', curated_by_id = #{current_user.id}, updated_at = '#{Time.now}'", "id IN (#{ids.join(',')})") if ids
+    if ids
+      Annotation.any_in(_id: ids).update_all(verified: verified, status: 'audited', curated_by_id: current_user.id, updated_at: Time.now)
+    end
     render(:json => ids.to_json)
   end
 
@@ -117,7 +124,7 @@ class AnnotationsController < ApplicationController
   end
 
   def set_ontology_dropdown
-    @current = params[:ddown] ? params[:ddown] : Annotation.first ? Annotation.first.ncbo_id : ""
+    @ncbo_id = params[:ncbo_id] ? params[:ncbo_id] : Annotation.first ? Annotation.first.ncbo_id : ""
   end
 
   def set_exclude_dropdown
@@ -130,15 +137,6 @@ class AnnotationsController < ApplicationController
 
   def set_has_predicate_dropdown
     @has_predicate = params[:has_predicate] ? params[:has_predicate] : 'No'
-  end
-
-  def set_predicate_conditions(has_predicate)
-    case has_predicate
-      when "No"
-        " AND predicate IS NULL"
-      when "Yes"
-        " AND predicate IS NOT NULL"
-    end
   end
 
 end

@@ -1,4 +1,4 @@
-%tr{:class => "#{cycle('row-odd', 'row-even')}", :tags => "#{audit_annotation.tags_for}"}
+%tr{:class => "#{cycle('row-odd', 'row-even')}"}
   %td{:valign => "top", :align => 'center'}
     - if !audit_annotation.audited?
       = check_box_tag('selected_annotations[]', audit_annotation.id, true)

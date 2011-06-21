@@ -20,8 +20,8 @@ img {
 
 #loading {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 10px;
+  right: 10px;
   z-index: 100;
   display: none; }
 
@@ -65,8 +65,15 @@ img {
   text-align: left;
   background-color: $navigation_content_bg;
   a {
+    background: darken($navigation_link, 60%);
+    padding: 5px;
+    margin-right: 5px;
     text-decoration: none;
-    color: $navigation_link; } }
+    color: $navigation_link; }
+  a:hover {
+    background: $navigation_link;
+    color: darken($navigation_link, 50%);
+  } }
 
 #footer {
   background: $footer_bg; }

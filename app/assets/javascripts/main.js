@@ -21,8 +21,8 @@ function filter_submit() {
   m.format = 'js';
   m._method = "get";
 
-  if ($("#ddown").length > 0) {
-    m.ddown = $("#ddown").val();
+  if ($("#ncbo_id").length > 0) {
+    m.ncbo_id = $("#ncbo_id").val();
   }
 
   if ($("#status").length > 0) {
@@ -74,9 +74,9 @@ function fireSubmit(currCount) {
 $(function() {
 
   // display the loading graphic during ajax requests
-  $("#loading").ajaxStart(function(){
+  $("#loading").ajaxStart(function() {
      $(this).show();
-   }).ajaxStop(function(){
+   }).ajaxStop(function() {
      $(this).hide();
    });
 
@@ -111,7 +111,8 @@ $(function() {
 
 // dynamically load the items based on query filter
 
-  $("#ddown").bind("change", filter_submit);
+  $("#refresh").bind("click", filter_submit);
+  $("#ncbo_id").bind("change", filter_submit);
   $("#status").bind("change", filter_submit);
   $("#exclude").bind("change", filter_submit);
   $("#has_predicate").bind("change", filter_submit);
@@ -129,7 +130,6 @@ $(function() {
     }
   });
 
-  $("#refresh").bind("click", filter_submit);
 
   $(".annotation-table:has(a)").show();
 

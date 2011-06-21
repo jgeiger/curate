@@ -17,7 +17,8 @@ class Ontology
   class << self
 
     def which_have_annotations
-      Ontology.all(:order => :name).select { |ontology| ontology if ontology.annotations.size > 0 }
+      ids = Annotation.all.distinct('ncbo_id')
+      Ontology.any_in(ncbo_id: ids)
     end
 
     def load_from_ncbo

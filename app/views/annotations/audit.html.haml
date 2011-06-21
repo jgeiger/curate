@@ -13,22 +13,20 @@
             Ontology:
         %td
           = ontology_search_dropdown(@current)
+        %td
+          %button#refresh
+            Refresh
       %tr
         %td{:align => 'right'}
           %label
             Annotation Status:
         %td
           = annotation_status_dropdown(@status)
-      %tr
         %td{:align => 'right'}
           %label
             Has predicate:
         %td
           = has_predicate_dropdown(@has_predicate)
         %td
-        %td
-          %button#refresh
-            Refresh
-
 .dataTable
   = render(:partial => "audit_list.html.haml")

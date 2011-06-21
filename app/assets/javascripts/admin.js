@@ -28,8 +28,7 @@ function bindCurate() {
     if (link.hasClass('automatic-annotation')) {
       $.post(href, {}, function(data) {
         updateCSS(data, link);
-        load_curators();
-      }, "json");
+        }, "json");
     }
     return false;
   });
@@ -54,8 +53,7 @@ function bindRightClicks() {
       }
       $.post(href, "_method=delete", function(data){
         displayResult(data);
-        load_curators();
-      }, "json");
+        }, "json");
     } else {
       set_bindings();
     }
@@ -70,8 +68,7 @@ function bindRightClicks() {
       var id = $(el).attr("id").split('-')[1];
       $.post("/annotations/"+id+'/predicate', {predicate: action, format: 'js'}, function(data){
         updateCSS(data, $(el));
-        load_curators();
-      }, "json");
+        }, "json");
     }
     return false;
   });
@@ -127,7 +124,6 @@ $(function() {
     var boxes = processChecked(true);
     $.post('/annotations/mass_curate', boxes.serialize()+"&verified=1", function(data){
       filter_submit();
-      load_curators();
     }, "json");
     return false;
   });
@@ -136,7 +132,6 @@ $(function() {
     var boxes = processChecked(false);
     $.post('/annotations/mass_curate', boxes.serialize()+"&verified=0", function(data){
       filter_submit();
-      load_curators();
     }, "json");
     return false;
   });

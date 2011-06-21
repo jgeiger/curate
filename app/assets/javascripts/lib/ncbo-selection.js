@@ -41,9 +41,7 @@ function unbindEvents() {
 }
 
 function submit_annotation() {
-  $.post("/annotations", $("#new_annotation input").serialize(), function() {
-    load_curators();
-  }, "script");
+  $.post("/annotations", $("#new_annotation input").serialize(), function() {}, "script");
   return false;
 }
 
