@@ -37,7 +37,7 @@ class Annotation
     ],
     unique: true)
 
-  @queue = :annotations
+  @queue = :database
 
   scope :verified, where(:verified => true)
   scope :unverified, where(:verified => false)

@@ -1,6 +1,6 @@
 class AnnotationProcessor
 
-  @queue = :annotation_processor
+  @queue = :processing
 
   class << self
     def perform(job_id)

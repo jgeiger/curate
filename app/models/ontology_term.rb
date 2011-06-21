@@ -21,7 +21,7 @@ class OntologyTerm
     ],
     unique: true)
 
-  @queue = :ontology_terms
+  @queue = :database
 
   class << self
     def perform(hash)

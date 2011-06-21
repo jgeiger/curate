@@ -18,7 +18,7 @@ class AnnotationJob
     ],
     unique: true)
 
-  @queue = :annotation_jobs
+  @queue = :processing
 
   class << self
 
