@@ -15,18 +15,17 @@ class OntologyTermsController < ApplicationController
   end
 
   def show
-    @ontology_term = OntologyTerm.first(:conditions => {:term_id => CGI::unescape(params[:id])})
-    annotation_type = params['annotation_type']
-    page = (params[:page].to_i > 0) ? params[:page].to_i : 1
-    raise Mongoid::Errors::DocumentNotFound if !@ontology_term
+    ncbo_id, term_id = CGI::unescape(params[:id]).split('|')
+    @ontology_term = OntologyTerm.where(ncbo_id: ncbo_id, term_id: term_id).first
 
+    raise Mongoid::Errors::DocumentNotFound if !@ontology_term
     respond_to do |format|
       format.html { }
       format.js {}
     end
 
     rescue Mongoid::Errors::DocumentNotFound
-      redirect_to(ontology_terms_url, warning: "That ontology term does not exist.")
+      redirect_to(ontology_terms_url, error: "That ontology term does not exist.")
   end
 
 end

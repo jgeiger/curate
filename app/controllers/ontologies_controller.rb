@@ -44,13 +44,13 @@ class OntologiesController < ApplicationController
 
   def show
     page = (params[:page].to_i > 0) ? params[:page].to_i : 1
-    @q = params[:query]
-    @ontologies = OntologyTerm.where(:ontology_id => @ontology.id).where(:name => /^#{@q}/i).order_by([:name, :asc]).page(page)
+    @query = params[:query]
+    @ontology_terms = OntologyTerm.where(ncbo_id: @ontology.ncbo_id, term_name: /^#{@query}/i).order_by([:term_name, :asc]).page(page)
 
     respond_to do |format|
       format.html {}
       format.js  {
-          render(:partial => "ontology_term_list.html.haml")
+          render(:partial => "ontologies/ontology_term_list.html.haml")
         }
     end
 

@@ -61,12 +61,16 @@ class OntologyTerm
     end
   end
 
-  # def valid_annotation_count
-  #   Annotation.count(:conditions => {:ontology_term_id => self.id, :verified => true})
-  # end
-  #
-  # def audited_annotation_count
-  #   Annotation.count(:conditions => {:ontology_term_id => self.id, :status => 'audited'})
-  # end
+  def annotations_count
+    Annotation.where(ontology_term_id: self.term_id, ncbo_id: self.ncbo_id).count
+  end
+
+  def valid_annotation_count
+    Annotation.where(ontology_term_id: self.term_id, ncbo_id: self.ncbo_id, verified: true).count
+  end
+
+  def audited_annotation_count
+    Annotation.where(ontology_term_id: self.term_id, ncbo_id: self.ncbo_id, :status => 'audited').count
+  end
 
 end
