@@ -16,7 +16,7 @@ class AnnotationJobsController < ApplicationController
   def create
     job = AnnotationJob.new(params[:annotation_job])
     Resque.enqueue(AnnotationJob, {action: 'generate', ncbo_id: job.ncbo_id})
-    redirect_to(annotation_jobs_url, notice: "Jobs have been created. #{job.ncbo_id}")
+    redirect_to(annotation_jobs_url, notice: "Jobs have been created.")
   end
 
   protected

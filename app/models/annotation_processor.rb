@@ -17,7 +17,7 @@ class AnnotationProcessor
 
     def create_for(job, ontology)
       cleaned = job.field_value.gsub(/[\r\n]+/, " ")
-      term_hash, ontology_hash = NcboAnnotatorService.result_hash(cleaned, ontology.stopwords, ontology.expand_ontologies, job.ncbo_id)
+      term_hash, ontology_hash = NcboAnnotatorService.result_hash(cleaned, Constants::STOPWORDS+ontology.stopwords, ontology.expand_ontologies, job.ncbo_id)
       AnnotationProcessor.process_ncbo_results(term_hash, ontology_hash, job)
     end
 
