@@ -1,0 +1,34 @@
+= page_title("Audit Annotations")
+%p
+  %form{:name => "sform", :action => "", :style => "display:inline"}
+    %table.filter-menu
+      %tr
+        %td{:align => 'right'}
+          %label
+            Filter on term:
+        %td
+          = text_field_tag(:query, params['query'], :autocomplete => 'off')
+        %td{:align => 'right'}
+          %label
+            Ontology:
+        %td
+          = ontology_search_dropdown(@current)
+      %tr
+        %td{:align => 'right'}
+          %label
+            Annotation Status:
+        %td
+          = annotation_status_dropdown(@status)
+      %tr
+        %td{:align => 'right'}
+          %label
+            Has predicate:
+        %td
+          = has_predicate_dropdown(@has_predicate)
+        %td
+        %td
+          %button#refresh
+            Refresh
+
+.dataTable
+  = render(:partial => "audit_list.html.haml")

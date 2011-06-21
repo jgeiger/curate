@@ -1,7 +1,7 @@
 class OntologyTerm
   include Mongoid::Document
 
-  belongs_to :ontology
+#  belongs_to :ontology
 #  has_many :annotations, :dependent => :delete_all, :order => :geo_accession#, :dependent => :destroy
 #  has_many :annotation_closures, :dependent => :delete_all, :include => :annotation, :order => "annotations.geo_accession"#, :dependent => :destroy
 
@@ -10,15 +10,39 @@ class OntologyTerm
 
 #  has n, :results, :foreign_key => :ontology_term_id#, :order => :sample_geo_accession, :dependent => :destroy # they exist, but don't associate in case of lazy load
 
+  field :ncbo_id, :type => Integer
+  field :term_id, :type => String
+  field :term_name, :type => String
+
+  index(
+    [
+      [ :ncbo_id, Mongo::ASCENDING ],
+      [ :term_id, Mongo::ASCENDING ]
+    ],
+    unique: true)
+
+  @queue = :ontology_terms
+
   class << self
+    def perform(hash)
+      case hash['action']
+        when 'save'
+          self.save_ontology_term(hash)
+      end
+    end
+
+    def save_ontology_term(hash)
+      ontology_term = OntologyTerm.new(ncbo_id: hash['ncbo_id'], term_id: hash['term_id'], term_name: hash['term_name'])
+      ontology_term.save
+    end
   end # of self
 
   def to_param
-    self.term_id
+    [ncbo_id, term_id].join('|')
   end
 
   def specific_term_id
-    self.term_id.split("|").last
+    self.term_id
   end
 
   def valid_annotation_percentage

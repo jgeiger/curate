@@ -16,10 +16,6 @@ function updateCSS(data, object) {
   set_bindings();
 }
 
-function load_curators() {
-  $("#top-curators").load('/annotations/top_curators');
-}
-
 function set_annotation_css(element, css_class) {
   element.removeClass('predicate-text predicate-tissue predicate-cell_used predicate-strain_used predicate-chemical_used predicate-').addClass(css_class);
 }
@@ -107,59 +103,7 @@ function processChecked(isValid) {
   return boxes;
 }
 
-function scroll_curators() {
-  var menuYloc = parseInt($('#top-curators').css("top").substring(0,$('#top-curators').css("top").indexOf("px")), 10);
-  $(window).scroll(function () {
-    var offset = menuYloc+$(document).scrollTop()+"px";
-    $('#top-curators').animate({top:offset},{duration:500,queue:false});
-  });
-}
-
 $(function() {
-
-  $(".annotation-status").live("click", function(e){
-    var geo_accession = $(this).closest('.box').attr("geo_accession");
-    var status = $(this).attr("status");
-    $.post('/platforms/skip_annotations', { status: status, geo_accession: geo_accession }, function(data){}, "script");
-    return false;
-  });
-
-  $("a.geo-audit-link").live("click", function(e){
-    var id = $(this).attr("id");
-    var row = $(this).closest('tr');
-    row.siblings('tr').removeClass('highlight');
-    row.addClass('highlight');
-    var top = ($('#container').position().top+50);
-    $('#right').load('/annotations/'+id+'/geo_item', function() {
-      $('#right').css('top', (e.pageY-top));
-    });
-    return false;
-  });
-
-  if ($('#tag_list').length > 0) {
-    $('#tag_list').autocompleteArray(tags_json, { autoFill:true });
-  }
-
-  $("a.delete-tag").live("click", function(){
-    var tag_name = $(this).attr("tag_name");
-    var geo_accession = $(this).closest('#tags').attr("geo_accession");
-    $.post('/tags/delete_for', { tag_list: tag_name, geo_accession: geo_accession, format: 'js' }, function(data){}, "script");
-    return false;
-  });
-
-  $("a.add-tag").live("click", function(){
-    var tag_name = $(this).attr("tag_name");
-    var geo_accession = $(this).closest('#tags').attr("geo_accession");
-    $.post('/tags/create_for', { tag_list: tag_name, geo_accession: geo_accession, format: 'js' }, function(data){}, "script");
-    return false;
-  });
-
-  $("#tag-form").submit(function(){
-    $.post('/tags/create_for', $(this).serialize(), function(data){}, "script");
-    $(this)[0].reset();
-    return false;
-  });
-
 
   $("#show").live("click", function(){
     $(this).hide();
@@ -214,11 +158,6 @@ $(function() {
 
   bindCurate();
   bindRightClicks();
-
-  if ($('#top-curators').length > 0) {
-    load_curators();
-    scroll_curators();
-  }
 
   $("a.dataset-child-link").live("click", function(e){
     var sort_by = $(this).attr("sort_by");

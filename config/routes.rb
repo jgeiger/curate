@@ -11,6 +11,18 @@ Curate::Application.routes.draw do
     end
   end
 
+  resources :annotations do
+    collection do
+      get :audit
+      post :mass_curate
+    end
+
+    member do
+      post :predicate
+      post :curate
+    end
+  end
+
   match '/help', :to => 'pages#help', :as => 'help'
 
   root :to => 'pages#home'

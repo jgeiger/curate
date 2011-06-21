@@ -9,6 +9,8 @@
     = javascript_include_tag("application")
     = csrf_meta_tags
   %body
+    - if admin?
+      = render(:partial => "shared/right_click_menus.html.haml")
     #header
       = render(:partial => "shared/header.html.haml")
     #navigation

@@ -5,7 +5,7 @@ class OntologiesController < ApplicationController
   before_filter :load_ontology, :only => [:show, :edit, :update]
 
   def index
-    @query = params[:query]
+    @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
     @ontologies = Ontology.where(:name => /^#{@query}/i).order_by([:name, :asc]).page(page)

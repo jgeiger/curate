@@ -36,7 +36,9 @@ class AnnotationJob
           if !field_value.blank?
             Rails.logger.debug(field_value)
             job = AnnotationJob.new(ncbo_id: ncbo_id, document_id: document.id, field_name: field_name, field_value: field_value)
-            job.save
+            if job.save
+              Resque.enqueue(AnnotationProcessor, job.id)
+            end
           end
         end
       end

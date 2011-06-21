@@ -11,11 +11,9 @@
   %table{:width => "100%", :border => "0", :cellpadding => "0", :cellspacing => "2"}
     %thead
       %tr.row-header
-        %td{:width => "50%"}
-          Name
-        %td{:width => "20%"}
-          Annotation Count
         %td{:width => "30%"}
           Ontology Name
+        %td{:width => "50%"}
+          Name
     %tbody#staffTable
       = render(:partial => "ontology_term.html.haml", :collection => @ontology_terms)

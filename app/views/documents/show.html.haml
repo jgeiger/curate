@@ -8,9 +8,15 @@
         Field name
       %th
         Value
-  - (@document.attributes.keys-['_id', 'title']).each do |field|
+  - (@document.attributes.keys-['_id']).each do |field|
     %tr
-      %td{width: '30%'}
-        = field
-      %td
+      %td{width: '30%', valign: 'top'}
+        %strong
+          = field
+      %td{valign: 'top'}
         = @document.do_or_do_not(field)
+    %tr.row-even
+      %td{valign: 'top'}
+        annotations
+      %td{valign: 'top'}
+        = annotation_list(@document.annotations_for(field))

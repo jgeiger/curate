@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
   before_filter :load_document, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @query = params[:query]
+    @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
     @documents = Document.where(:title => /^#{@query}/i).order_by([:title, :asc]).page(page)

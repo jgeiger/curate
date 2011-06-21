@@ -1,0 +1,13 @@
+%tr{:class => "#{cycle('row-odd', 'row-even')}", :tags => "#{audit_annotation.tags_for}"}
+  %td{:valign => "top", :align => 'center'}
+    - if !audit_annotation.audited?
+      = check_box_tag('selected_annotations[]', audit_annotation.id, true)
+  %td{:valign => "top"}
+    = audit_annotation.field_name
+  %td{:valign => "top"}
+    = curate_link(audit_annotation)
+  %td{:valign => "top"}
+    .context
+      = audit_annotation.in_context
+      .full-text
+        = audit_annotation.full_text_highlighted

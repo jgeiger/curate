@@ -1,0 +1,7 @@
+%br
+- if @annotations.size == 0
+  %p
+    No matching annotations found...
+- else
+  %br
+  = render(:partial => "audit_list_annotations.html.haml", :locals => {:items => @annotations})

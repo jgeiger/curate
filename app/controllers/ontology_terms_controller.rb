@@ -1,16 +1,16 @@
 class OntologyTermsController < ApplicationController
 
   def index
-    @q = params[:query]
+    @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
-    @ontology_terms = OntologyTerm.where(:name => /^#{@q}/i).order_by([:name, :asc]).page(page)
+    @ontology_terms = OntologyTerm.where(:term_name => /^#{@query}/i).order_by([:term_name, :asc]).page(page)
 
     respond_to do |format|
       format.html { }
       format.js  {
-          render(:partial => "ontology_terms_list.html.haml")
-        }
+        render(:partial => "ontology_terms_list.html.haml")
+      }
     end
   end
 

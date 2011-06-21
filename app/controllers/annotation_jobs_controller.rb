@@ -4,7 +4,8 @@ class AnnotationJobsController < ApplicationController
   before_filter :admin_required, :except => [:status]
 
   def index
-    @annotation_jobs = AnnotationJob.order_by([:created_at, :desc]).page(1)
+    page = (params[:page].to_i > 0) ? params[:page] : 1
+    @annotation_jobs = AnnotationJob.order_by([:created_at, :desc]).page(page)
   end
 
   def new

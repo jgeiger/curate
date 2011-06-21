@@ -70,10 +70,6 @@ module ApplicationHelper
     end
   end
 
-  def ncbi_link(geo_accession)
-    link_to("NCBI: #{geo_accession}", "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=#{geo_accession}&targ=self&form=html&view=quick", :target => "_blank", :class => "ncbolink")
-  end
-
   def pubmed_link(pubmed_id)
     if pubmed_id.blank?
       ""
@@ -88,7 +84,7 @@ module ApplicationHelper
 
   def term_css(annotation, seed_css)
     css = seed_css
-    if annotation.created_by_id == 0
+    if annotation.created_by_id.blank?
       css << " automatic-annotation"
     else
       css << " manual-annotation"
@@ -113,16 +109,6 @@ module ApplicationHelper
     end
   end
 
-  def term_link(annotation)
-    css = term_css(annotation, "cyto")
-
-    link_div = content_tag(:div, :class => 'term-ncbo-link') do
-      link = link_to(annotation.ontology_term.name, ontology_term_url(annotation.ontology_term), :ontology_term_id => annotation.resource_id, :field_name => annotation.field_name, :class => css)
-      link << ncbo_ontology_link(annotation.ontology_term)
-      link
-    end
-  end
-
   def ontology_link(annotation)
     link_to(annotation.ontology_term.ontology.name, ontology_url(annotation.ontology_term.ontology))
   end
@@ -137,21 +123,30 @@ module ApplicationHelper
     end
   end
 
-  def curate_link(annotation)
-    parameters = {:ontology_term_id => annotation.ontology_term_id, :geo_accession => annotation.geo_accession, :field_name => annotation.field_name}
-    css = term_css(annotation, "annotation-term curate cyto")
+  def term_link(annotation)
+    css = term_css(annotation, "")
 
     link_div = content_tag(:div, :class => 'term-ncbo-link') do
-      link = link_to(annotation.ontology_term.name, curate_annotation_url(annotation), :ontology_term_id => annotation.resource_id, :ontology_term => annotation.ontology_term.term_id, :id => "link-#{annotation.id}", :field_name => annotation.field_name, :class => css, :from => annotation.from, :to => annotation.to, :text => annotation.ontology_term.name, :title => "Location: #{annotation.from} - #{annotation.to}")
-      link << ncbo_ontology_link(annotation.ontology_term)
+      link = link_to(annotation.ontology_term_name, ontology_term_url(annotation.ontology_term_id), :ontology_term_id => annotation.resource_id, :field_name => annotation.field_name, :class => css)
+      link << ncbo_ontology_link(annotation.ncbo_id, annotation.ontology_term_id)
       link
     end
   end
 
-  def ncbo_ontology_link(ontology_term)
-    ncbo_id, term_id = ontology_term.term_id.split("|")
+  def curate_link(annotation)
+    parameters = {:ontology_term_id => annotation.ontology_term_id, :document_id => annotation.document_id, :field_name => annotation.field_name}
+    css = term_css(annotation, "annotation-term curate")
+
+    link_div = content_tag(:div, :class => 'term-ncbo-link') do
+      link = link_to(annotation.ontology_term_name, curate_annotation_url(annotation), :ontology_term_id => annotation.resource_id, :ontology_term => annotation.ontology_term_id, :id => "link-#{annotation.id}", :field_name => annotation.field_name, :class => css, :from => annotation.starts_at, :to => annotation.ends_at, :text => annotation.ontology_term_name, :title => "Ontology: #{annotation.ncbo_id}, Location: #{annotation.starts_at} - #{annotation.ends_at}")
+      link << ncbo_ontology_link(annotation.ncbo_id, annotation.ontology_term_id)
+      link
+    end
+  end
+
+  def ncbo_ontology_link(ncbo_id, term_id)
     alt = "Visualize #{term_id} at NCBO Bioportal"
-    link_to(image_tag("icons/ncbo_bioportal.png", :alt => alt), "http://bioportal.bioontology.org/virtual/#{ontology_term.ontology.ncbo_id}/#{term_id}", :target => "_blank", :title => alt)
+    link_to(image_tag("icons/ncbo_bioportal.png", :alt => alt), "http://bioportal.bioontology.org/virtual/#{ncbo_id}/#{term_id}", :target => "_blank", :title => alt)
   end
 
   def annotation_hash(item, field_name)
@@ -194,7 +189,18 @@ module ApplicationHelper
   end
 
   def date_or_pending(date)
-    date ? Time.at(date).to_s(:us_with_time) : "Pending"
+    date ? Time.at(date.to_i).to_s(:us_with_time) : "Pending"
+  end
+
+  def annotation_list(annotations)
+    html = annotations.inject("") do |s, annotation|
+      if admin?
+        s << curate_link(annotation)
+      else
+        s << term_link(annotation)
+      end
+      s
+    end.html_safe
   end
 
 end

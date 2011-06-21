@@ -1,0 +1,12 @@
+%tr{:class => "#{cycle('row-odd', 'row-even')}"}
+  %td{:valign => "top"}
+    = annotation.document_id
+  %td{:valign => "top"}
+    - if admin?
+      = curate_link(annotation)
+    - else
+      = highlight(annotation.ontology_term_name, @query)
+  %td{:valign => "top"}
+    %strong
+      == #{annotation.field_name}:
+    = annotation.in_context

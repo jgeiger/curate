@@ -1,0 +1,12 @@
+= page_title("Annotations")
+%p
+  %form{:name => "sform", :action => "", :style => "display:inline"}
+  %table.filter-menu
+    %tr
+      %td{:align => 'right'}
+        %label
+          Filter on term:
+      %td
+        = text_field_tag(:query, params['query'], :autocomplete => 'off')
+.dataTable
+  = render(:partial => "annotations_list.html.haml")

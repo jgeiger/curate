@@ -6,11 +6,11 @@ class NcboAnnotatorService
 
   class << self
 
-    def get_data(text, stopwords, expand_ontologies, email, ncbo_ontology_id)
+    def get_data(text, stopwords, expand_ontologies, ncbo_ontology_id)
       retried = false
       parameters = {
         "apikey" => Constants::API_KEY,
-        "email" => email,
+        "email" => Constants::EMAIL,
         "longestOnly" => "false",
         "wholeWordOnly" => "true",
         "stopWords" => stopwords,
@@ -44,8 +44,8 @@ class NcboAnnotatorService
       end
     end
 
-    def result_hash(text, stopwords, expand_ontologies, ncbo_ontology_id, email)
-      result = NcboAnnotatorService.get_data(text, stopwords, expand_ontologies, email, ncbo_ontology_id)
+    def result_hash(text, stopwords, expand_ontologies, ncbo_ontology_id)
+      result = NcboAnnotatorService.get_data(text, stopwords, expand_ontologies, ncbo_ontology_id)
       if result && result['success']
         annotations = result['success']['data']['annotatorResultBean']['annotations']
         ontology_hash = annotations.blank? ? {} : generate_ontology_hash(result['success']['data']['annotatorResultBean']['ontologies']['ontologyUsedBean'])

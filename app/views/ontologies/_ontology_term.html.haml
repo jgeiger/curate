@@ -1,7 +1,7 @@
 %tr{:class => "#{cycle('row-odd', 'row-even')}"}
   %td{:valign => "top", :width => "40%"}
     = link_to(ontology_term.name, ontology_term_url(ontology_term))
-    = ncbo_ontology_link(ontology_term)
+    = ncbo_ontology_link(ontology_term.ncbo_id, ontology_term.term_id)
   %td{:valign => "top"}
     = has_annotations(ontology_term.annotations_count)
   - if admin?
