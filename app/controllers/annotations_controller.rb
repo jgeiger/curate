@@ -4,9 +4,10 @@ class AnnotationsController < ApplicationController
   before_filter :load_annotation, :only => [:curate, :predicate, :destroy]
 
   def index
+    set_ontology_dropdown
     @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
-    @annotations = Annotation.where(:ontology_term_name => /^#{@query}/i).order_by([[:ontology_term_name, :asc], [:document_id, :asc], [:field_name, :asc]]).page(page)
+    @annotations = Annotation.where(ontology_term_name: /^#{@query}/i, ncbo_id: @ncbo_id).order_by([[:ontology_term_name, :asc], [:document_id, :asc], [:field_name, :asc]]).page(page)
 
     respond_to do |format|
       format.html {}
@@ -24,9 +25,7 @@ class AnnotationsController < ApplicationController
     @query = params[:query] ? Regexp.escape(params[:query]) : ""
     page = (params[:page].to_i > 0) ? params[:page] : 1
 
-    annotations = Annotation.where(:ontology_term_name => /^#{@query}/i)
-
-    annotations = annotations.where(ncbo_id: @ncbo_id) if !@ncbo_id.blank?
+    annotations = Annotation.where(:ontology_term_name => /^#{@query}/i, ncbo_id: @ncbo_id)
 
     case @status
       when "All"
@@ -87,7 +86,7 @@ class AnnotationsController < ApplicationController
 
   def mass_curate
     ids = params[:selected_annotations]
-    verified = params[:verified]
+    verified = params[:verified] == "1" ? true : false
     if ids
       Annotation.any_in(_id: ids).update_all(verified: verified, status: 'audited', curated_by_id: current_user.id, updated_at: Time.now)
     end
