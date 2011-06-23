@@ -295,10 +295,10 @@ jQuery.autocomplete = function(input, options) {
       var li = document.createElement("li");
       if (options.formatItem) {
         li.innerHTML = options.formatItem(row, i, num);
-        li.selectValue = row[0];
+        li.selectValue = row[5]+'||'+row[0];
       } else {
         li.innerHTML = row[0];
-        li.selectValue = row[0];
+        li.selectValue = row[5]+'||'+row[0];
       }
       var extra = null;
       if (row.length > 1) {

@@ -20,6 +20,10 @@ class DocumentsController < ApplicationController
   # GET /documents/1
   # GET /documents/1.json
   def show
+    if admin?
+      @new_annotation = Annotation.for_item(@document, current_user.id)
+      @ontologies = Ontology.all.order_by([:name, :asc])
+    end
     respond_to do |format|
       format.html
       format.json { render json: @document }

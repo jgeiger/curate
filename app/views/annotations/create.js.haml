@@ -1,4 +1,3 @@
 // views/annotations/create.js.haml
-== $("#table-#{@annotation.field_name}").html("");
-== $("#new-annotation").hide();
+== $(".annotations-#{@annotation.field_name}").html("#{escape_javascript(annotation_list(@document.annotations_for(@annotation.field_name)))}");
 == displayResult(#{@result.to_json.html_safe});

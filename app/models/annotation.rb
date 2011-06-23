@@ -60,6 +60,11 @@ class Annotation
       )
       annotation.save
     end
+
+    def for_item(item, current_user_id)
+      Annotation.new(created_by_id: current_user_id, curated_by_id: current_user_id, status: 'audited', verified: true, document_id: item._id)
+    end
+
   end #of self
 
   def resource_id

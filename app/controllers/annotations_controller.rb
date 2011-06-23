@@ -56,23 +56,28 @@ class AnnotationsController < ApplicationController
   end
 
   def create
-    @annotation = Annotation.new(params[:annotation])
-    term_id = "#{@annotation.ncbo_id}|#{@annotation.ncbo_term_id}"
-    term = OntologyTerm.first(:conditions => {:term_id => term_id})
-    ontology = Ontology.first(:conditions => {:ncbo_id => @annotation.ncbo_id})
-
-    raise ActiveRecord::RecordNotFound, "Invalid ontology term" unless term
-    raise ActiveRecord::RecordNotFound, "Invalid ontology" unless ontology
-
-    @annotation.predicate = (ontology.ncbo_id == 1150) ? 'strain_used' : (ontology.ncbo_id == 1006) ? 'cell_used' : (ontology.ncbo_id == 1007) ? 'chemical_used' : (ontology.ncbo_id == 1423) ? 'drug_used' : 'tissue'
-    @annotation.term_id = term_id
-    @annotation.term_name = term.name
-    @annotation.ontology_id = ontology.id
-    @annotation.ontology_term_id = term.id
+    term_name, term_id =  params[:annotation].delete('ontology_term_id').split('||')
+    @annotation = Annotation.new(params[:annotation].merge!(:ontology_term_name => term_name, :ontology_term_id => term_id))
+    OntologyTerm.create(term_id: @annotation.ontology_term_id, ncbo_id: @annotation.ncbo_id, term_name: @annotation.ontology_term_name)
+    @annotation.predicate = case @annotation.ncbo_id
+      when 1150
+        'strain_used'
+      when 1006
+        'cell_used'
+      when 1007
+        'chemical_used'
+      when 1423
+        'drug_used'
+      when 1000
+        'tissue'
+      else
+        ''
+      end
 
     respond_to do |format|
       format.js {
         if @annotation.save
+          @document = Document.find(@annotation.document_id)
           @result = {'status' => "success", 'message' => "Annotation successfully saved!"}
         else
           errors = @annotation.errors.full_messages.join("\n")
@@ -81,7 +86,7 @@ class AnnotationsController < ApplicationController
       }
     end
     rescue Exception => e
-      @result = {'status' => "failure", 'message' => "ERROR: #{e.inspect}"}
+     @result = {'status' => "failure", 'message' => "ERROR: #{e.inspect}"}
   end
 
   def mass_curate

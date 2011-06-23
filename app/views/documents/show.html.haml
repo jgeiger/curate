@@ -13,10 +13,10 @@
       %td{width: '30%', valign: 'top'}
         %strong
           = field
-      %td{valign: 'top'}
+      %td.annotate{valign: 'top', field_name: field, field_value: @document.do_or_do_not(field)}
         = @document.do_or_do_not(field)
     %tr.row-even
       %td{valign: 'top'}
         annotations
-      %td{valign: 'top'}
+      %td{valign: 'top', class: "annotations-#{field}"}
         = annotation_list(@document.annotations_for(field))

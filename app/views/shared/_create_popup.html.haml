@@ -1,0 +1,22 @@
+#new-annotation.rounded.drop-shadow
+  = simple_form_for(@new_annotation) do |f|
+    = f.input :ontology_term_id, :input_html => { :class => "bp_form_complete-1150-uri" }
+    = f.input :ncbo_id, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :field_name, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :field_value, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :starts_at, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :ends_at, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :created_by_id, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :curated_by_id, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :verified, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :status, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.input :document_id, :as => :hidden, :wrapper_html => { :style => "display:none;" }
+    = f.submit(t('label.save'))
+    = f.submit(t('label.cancel'), :class => "cancel", :id => "annotation_cancel")
+
+%ul#annotation-menu.contextMenu
+  - @ontologies.each do |ontology|
+    %li{:class => "#{ontology.ncbo_id} separator"}
+      %a{:href => "##{ontology.ncbo_id}"}
+        = ontology.name
+

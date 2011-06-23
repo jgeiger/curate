@@ -35,6 +35,32 @@ function bindCurate() {
 }
 
 function bindRightClicks() {
+  $(".annotate").contextMenu({
+      menu: 'annotation-menu'
+    },
+    function(ontology, el, pos) {
+      var txt = getSelectedText();
+      if (txt != '') {
+        hash = getSelectedInformation(txt, el);
+        $('#new-annotation').css({top: (pos.docY-125), left: (pos.docX-250)});
+        ontology_class = "bp_form_complete-"+ontology+"-shortid";
+        $("input#annotation_ontology_term_id").removeClass();
+        $("input#annotation_ontology_term_id").addClass(ontology_class);
+        unbindEvents();
+        setup_functions();
+        $("input#annotation_ontology_term_id").val(hash.text);
+        $("input#annotation_ncbo_id").val(ontology);
+        $("input#annotation_starts_at").val(hash.starts_at);
+        $("input#annotation_ends_at").val(hash.ends_at);
+        $("input#annotation_field_name").val(hash.field_name);
+        $("input#annotation_field_value").val(hash.field_value);
+        $("#new-annotation").show();
+        $("input#annotation_ontology_term_id").focus();
+        $("input#annotation_ontology_term_id").keydown();
+    }
+    return false;
+  });
+
   $("a.curate.manual-annotation").contextMenu({
     menu: 'delete-menu'
   },
@@ -44,13 +70,7 @@ function bindRightClicks() {
       var row;
       var href = "/annotations/"+id;
       $(el).next().remove();
-      if ($(el).siblings().size() === 0) {
-        row = $(el).parent().parent().parent();
-      }
       $(el).remove();
-      if (row) {
-        $(row).remove();
-      }
       $.post(href, "_method=delete", function(data){
         displayResult(data);
         }, "json");
@@ -98,6 +118,55 @@ function processChecked(isValid) {
     $(this).remove();
   });
   return boxes;
+}
+
+function getSelectedInformation(t, element) {
+  var txt = t.toString();
+  var text = jQuery.trim(txt);
+  var len = text.length;
+  var full = jQuery.trim($(element).text());
+  var field_name = $(element).attr("field_name");
+  var field_value = $(element).attr("field_value");
+  var starts_at = full.indexOf(text)+1;
+  var ends_at = starts_at+len-1;
+  var hash = {'starts_at':starts_at, 'ends_at':ends_at, 'text':text, 'field_name':field_name, 'field_value':field_value};
+  return hash;
+}
+
+function displayResult(data) {
+  $("#annotation-result").removeClass();
+  $("#annotation-result").addClass(data.status);
+  $("#annotation-result").text(data.message);
+  $("#annotation-result").fadeIn("fast", function() {
+    $("#new-annotation").hide();
+  }).fadeTo(2000, 1).fadeOut("fast");
+  bindCurate();
+  bindRightClicks();
+}
+
+function getSelectedText() {
+  var txt = '';
+  if (window.getSelection) {
+    txt = window.getSelection();
+  // FireFox
+  } else if (document.getSelection) {
+    txt = document.getSelection();
+  // IE 6/7
+  } else if (document.selection) {
+    txt = document.selection.createRange().text;
+  }
+  return txt;
+}
+
+function unbindEvents() {
+  $("input[class*='bp_form_complete']").each(function(){
+    $(this).unbind();
+  });
+}
+
+function submit_annotation() {
+  $.post("/annotations", $("#new_annotation input").serialize(), function() {}, "script");
+  return false;
 }
 
 $(function() {
@@ -151,14 +220,21 @@ $(function() {
     return false;
   });
 
-  bindCurate();
-  bindRightClicks();
-
   $("a.dataset-child-link").live("click", function(e){
     var sort_by = $(this).attr("sort_by");
     $('.dataTable').load($(this).attr('href'), function() {});
     return false;
   });
+
+  $("#new_annotation").bind("submit", submit_annotation);
+
+  $("input#annotation_cancel").bind("click", function(){
+    $("#new-annotation").hide();
+    return false;
+  });
+
+  bindCurate();
+  bindRightClicks();
 
 });
 

@@ -10,7 +10,9 @@
     = csrf_meta_tags
   %body
     - if admin?
+      #annotation-result
       = render(:partial => "shared/right_click_menus.html.haml")
+      = render(:partial => "shared/create_popup.html.haml") if @new_annotation
     #header
       = render(:partial => "shared/header.html.haml")
     #navigation
