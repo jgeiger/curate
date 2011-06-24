@@ -233,6 +233,16 @@ $(function() {
     return false;
   });
 
+  $(".ontology-status").live("click", function(){
+    var link = $(this);
+    var id = link.attr('id');
+    $.post('/ontologies/'+id+'/toggle_hidden', {}, function(data) {
+      link.html(data.result);
+      link.removeClass("ontology-shown ontology-hidden").addClass(data.css_class);
+    }, "json");
+    return false;
+  });
+
   bindCurate();
   bindRightClicks();
 

@@ -10,7 +10,7 @@ class AnnotationJobsController < ApplicationController
 
   def new
     @annotation_job = AnnotationJob.new
-    @ontologies = Ontology.all(sort: [[ :name, :asc ]])
+    @ontologies = Ontology.where(hidden: false).order_by([ :name, :asc ])
   end
 
   def create

@@ -203,4 +203,11 @@ module ApplicationHelper
     end.html_safe
   end
 
+  def ontology_hidden_link(ontology)
+    hash = ontology.hidden_status
+    link_div = content_tag(:div, :class => "ontology-status #{hash[:css_class]}", :id => ontology.id) do
+      hash[:result]
+    end
+  end
+
 end

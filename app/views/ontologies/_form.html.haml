@@ -3,3 +3,4 @@
 = form.input :ncbo_id, :label => "Virtual NCBO ID"
 = form.input :version
 = form.input :stopwords
+= form.input :hidden, :as => :select, :collection => [['Yes', true], ['No', false]], :include_blank => false, :label => "Hide:"

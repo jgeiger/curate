@@ -22,7 +22,7 @@ class DocumentsController < ApplicationController
   def show
     if admin?
       @new_annotation = Annotation.for_item(@document, current_user.id)
-      @ontologies = Ontology.all.order_by([:name, :asc])
+      @ontologies = Ontology.where(hidden: false).order_by([ :name, :asc ])
     end
     respond_to do |format|
       format.html

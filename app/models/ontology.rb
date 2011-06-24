@@ -7,6 +7,7 @@ class Ontology
   field :version, type: String
   field :stopwords, type: String
   field :expand_ontologies, type: String
+  field :hidden, type: Boolean, :default => true
 
   index :ncbo_id, unique: true
   index :name, unique: true
@@ -98,6 +99,22 @@ class Ontology
       end
     end
   end # of self
+
+  def toggle_hidden
+    self.hidden = self.hidden? ? false : true
+    save
+    hidden_status
+  end
+
+  def hidden_status
+    result = 'No'
+    css_class = 'ontology-shown'
+    if self.hidden?
+      result = 'Yes'
+      css_class = 'ontology-hidden'
+    end
+    hash = {result: result, css_class: css_class}
+  end
 
   def update_data
     self.current_ncbo_id, self.name, self.version = NcboAnnotatorService.current_ncbo_id(self.ncbo_id)

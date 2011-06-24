@@ -2,7 +2,7 @@ class OntologiesController < ApplicationController
 
   before_filter :check_cancel, :only => [:create, :update]
   before_filter :admin_required, :only => [:new, :edit, :create, :update]
-  before_filter :load_ontology, :only => [:show, :edit, :update]
+  before_filter :load_ontology, :only => [:show, :edit, :update, :toggle_hidden]
 
   def index
     @query = params[:query] ? Regexp.escape(params[:query]) : ""
@@ -59,6 +59,11 @@ class OntologiesController < ApplicationController
   def refresh
     Ontology.load_from_ncbo
     redirect_to(ontologies_url, notice: 'Ontology list was successfully updated.')
+  end
+
+  def toggle_hidden
+    hash = @ontology.toggle_hidden
+    render(:json => hash.to_json)
   end
 
   protected

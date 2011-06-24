@@ -9,6 +9,10 @@ Curate::Application.routes.draw do
     collection do
       get :refresh
     end
+
+    member do
+      post :toggle_hidden
+    end
   end
 
   resources :annotations do

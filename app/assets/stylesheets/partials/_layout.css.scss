@@ -329,3 +329,18 @@ ul.nav li a:hover {
 
 .term-ncbo-link {
   line-height: 2.7em; }
+
+.ontology-status {
+  border: 1px solid #000;
+  padding: 2px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ontology-shown {
+ background: #dfd;
+}
+
+.ontology-hidden {
+ background: #fdd;
+}
