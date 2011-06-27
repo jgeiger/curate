@@ -17,17 +17,17 @@
 .success {
   color: darken($success, 60%);
   background-color: $success;
-  background-image: url('/assets/icons/success.png'); }
+  background-image: asset_url("icons/success.png", image); }
 
 .notice {
   color: darken($notice, 60%);
   background-color: $notice;
-  background-image: url('/assets/icons/notice.png'); }
+  background-image: asset_url("icons/notice.png", image); }
 
 .warning, .alert, .validation {
   color: darken($error, 50%);
   background-color: $error;
-  background-image: url('/assets/icons/error.png'); }
+  background-image: asset_url("icons/error.png", image); }
 
 .error_explanation {
   background-color: $error;
