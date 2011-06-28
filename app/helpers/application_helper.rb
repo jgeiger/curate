@@ -127,7 +127,7 @@ module ApplicationHelper
     css = term_css(annotation, "")
 
     link_div = content_tag(:div, :class => 'term-ncbo-link') do
-      link = link_to(annotation.ontology_term_name, ontology_term_url(annotation.ontology_term_id), :ontology_term_id => annotation.resource_id, :field_name => annotation.field_name, :class => css)
+      link = link_to(annotation.ontology_term_name, ontology_term_url([annotation.ncbo_id, annotation.ontology_term_id].join('|')), :ontology_term_id => annotation.resource_id, :field_name => annotation.field_name, :class => css)
       link << ncbo_ontology_link(annotation.ncbo_id, annotation.ontology_term_id)
       link
     end
