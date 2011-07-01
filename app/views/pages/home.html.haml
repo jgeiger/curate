@@ -1,2 +1,15 @@
-%h1 Pages#home
-%p Find me in app/views/pages/home.html.haml
+= page_title("Home")
+- unless @ontology_count > 0
+  %p
+    = link_to("Refresh ontology list", refresh_ontologies_path)
+- else
+  %p
+    == Ontologies: #{@ontology_count}
+  - unless @document_count > 0
+    %p
+      = link_to("Create document", new_document_path)
+  - else
+    %p
+      == Documents: #{@document_count}
+    %p
+      == Ontology terms: #{@ontology_term_count}

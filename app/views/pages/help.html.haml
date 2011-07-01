@@ -1,2 +1,9 @@
-%h1 Pages#help
-%p Find me in app/views/pages/help.html.haml
+= page_title("Help")
+%p
+  Curate allows a user to annotate text documents using the NCBO Annotator.
+%p
+  You must load your csv document using the mongoimport command for mongoDB. The document must include a title field and the title must be unique.
+%p
+  Once you have imported your documents, you can then create jobs to annotate the text fields within the documents.
+%p
+  Upon completion of the jobs you can then curate the annotations that have been created or select text, right click and create new annotations on your own.

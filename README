@@ -1,1 +1,8 @@
-Curate will allow you to annotate text documents
+Curate will allow you to annotate text documents.
+
+It requires MongoDB http://www.mongodb.org/ and a Ruby web environment (Passenger)
+
+There are a number of gems included which can be found in the Gemfile.
+
+If you plan on using this in production you will need to change a few strings in the Constants model including the API_KEY and EMAIL. You can obtain an API_KEY at http://www.bioontology.org/user/register
+

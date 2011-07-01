@@ -6,7 +6,7 @@ class User
          :recoverable, :rememberable, :trackable, :validatable
 
 
-  field :admin, :type => Boolean, :default => false
+  field :admin, :type => Boolean, :default => true
 
   index :email, unique: true
 
